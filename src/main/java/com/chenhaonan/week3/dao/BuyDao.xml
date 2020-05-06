@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhaonan.week3.dao.BuyDao">
+<!-- 模糊查询 -->
+	<select id="selectsBy" resultType="Buy">
+		select b.*,r.roomprice,r.roomtype from buy b left join room r on b.rid=r.id
+		<where>
+			<if test="name!=null">
+				and name=#{name}
+			</if>
+			<if test="phone!=null">
+				and phone=#{phone}
+			</if>
+			<if test="date!=null">
+				and date=#{date}
+			</if>
+		</where>
+	</select>
+	<!-- 单条新增 -->
+	<insert id="add">
+		insert into buy(0,buydate,name,phone,rid,beizhu) values(#{id},#{buydate},#{name},#{phone},#{rid},#{beizhu})
+	</insert>
+	<!-- 批量新增 -->
+	<insert id="addall" >
+		insert into buy (id,buydate,name,phone,rid,beizhu) values
+		<foreach collection="list" close="(" separator="," open=")">
+			0,#{buydate},#{name},#{phone},#{rid},#{beizhu}
+		</foreach>
+	</insert>
+</mapper>
